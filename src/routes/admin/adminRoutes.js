@@ -7,6 +7,7 @@ const { requireSignin } = require('../../commonMiddleware/common_middleware');
 const {
   adminSignup,
   adminSignin,
+  signout,
 } = require('../../controller/admin/adminController');
 
 // validator
@@ -29,6 +30,8 @@ router.post(
   isRequestValidated,
   adminSignin,
 );
+
+router.post('/admin/signout', signout);
 
 router.post('/profile', requireSignin, (req, res) =>
   res.status(200).json({ admin: 'profile' }));

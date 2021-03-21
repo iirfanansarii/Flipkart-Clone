@@ -7,6 +7,13 @@ env.config();
 // import models
 const Category = require('../models/categoriesModel');
 
+// constants error messages
+const {
+  categoriesListFetched,
+  categoryAdded,
+  mongodbError,
+} = require('../constantErrorMessages/errorMessages');
+
 // controller
 exports.addCategory = (req, res) => {
   const categoryObj = {
@@ -25,14 +32,14 @@ exports.addCategory = (req, res) => {
     if (err) {
       return res.status(500).json({
         status: 0,
-        message: 'MongoDB error',
+        message: mongodbError,
         error: err,
       });
     }
     if (category) {
       return res.status(201).json({
         status: 1,
-        message: 'Category added succcessfully',
+        message: categoryAdded,
         data: category,
       });
     }
@@ -45,7 +52,7 @@ function formatCategories(categories, parentId = null) {
   const categoriesList = [];
   let category;
   if (parentId == null) {
-    category = categories.filter((cat) => cat.parentId == undefined);
+    category = categories.filter((cat) => cat.parentId === undefined);
   } else {
     category = categories.filter((cat) => cat.parentId == parentId);
   }
@@ -75,7 +82,7 @@ exports.getCategories = (req, res) => {
       const formatedCategories = await formatCategories(categories);
       return res.status(200).json({
         status: 1,
-        message: 'Categories list fethched successfully',
+        message: categoriesListFetched,
         categoryList: formatedCategories,
       });
     }

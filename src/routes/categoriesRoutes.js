@@ -26,7 +26,7 @@ router.post(
   upload.single('categoryImageFiles'),
   addCategory,
 );
-router.get('/categories', getCategories);
+router.get('/categories', requireSignin, getCategories);
 
 // export router
 module.exports = router;

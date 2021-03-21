@@ -2,6 +2,14 @@
 const jwt = require('jsonwebtoken');
 const User = require('../../models/userModel');
 
+// cosntants error messages
+const {
+  mongodbError,
+  invalidAdminPassword,
+  invalidAdminMail,
+  signoutSuccessfully,
+} = require('../../constantErrorMessages/errorMessages');
+
 // user signup
 exports.adminSignup = (req, res) => {
   User.findOne({
@@ -13,9 +21,7 @@ exports.adminSignup = (req, res) => {
         message: 'Admin email already exist',
       });
     }
-    const {
-      firstName, lastName, email, password,
-    } = req.body;
+    const { firstName, lastName, email, password } = req.body;
     const adminUser = new User({
       firstName,
       lastName,
@@ -50,17 +56,20 @@ exports.adminSignin = (req, res) => {
     if (err) {
       return res.status(500).json({
         staus: 0,
-        message: 'Database connection error',
+        message: mongodbError,
       });
     }
     if (user) {
-      if (user.authenticate(req.body.password)&& user.role === 'admin') {
-        const token = jwt.sign({ _id: user._id, role: user.role }, process.env.JWT_SECRET_KEY, {
-          expiresIn: '1h',
-        });
-        const {
-          _id, firstName, lastName, email, role, fullName,
-        } = user;
+      if (user.authenticate(req.body.password) && user.role === 'admin') {
+        const token = jwt.sign(
+          { _id: user._id, role: user.role },
+          process.env.JWT_SECRET_KEY,
+          {
+            expiresIn: '1h',
+          },
+        );
+        const { _id, firstName, lastName, email, role, fullName } = user;
+        res.cookie('token', token, { expiresIn: '1h' });
         return res.status(200).json({
           token,
           user: {
@@ -75,12 +84,21 @@ exports.adminSignin = (req, res) => {
       }
       return res.status(400).json({
         status: 0,
-        message: 'Invalid password',
+        message: invalidAdminPassword,
       });
     }
     return res.status(400).json({
       status: 0,
-      message: 'Something went wrong',
+      message: invalidAdminMail,
     });
+  });
+};
+
+// admin signout
+exports.signout = (req, res) => {
+  res.clearCookie('token');
+  res.status(200).json({
+    status: 1,
+    message: signoutSuccessfully,
   });
 };
