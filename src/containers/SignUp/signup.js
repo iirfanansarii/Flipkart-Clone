@@ -5,6 +5,7 @@ import { Redirect } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { signup } from '../../actions/userActions';
+import React from 'react';
 
 // signup template functional component
 const SignUp = () => {

@@ -5,7 +5,7 @@ import { addCategory, getAllCategory } from '../../actions/categoryActions';
 import Layout from '../../components/Layout/layout';
 import Input from '../../UI/input/inputs';
 
-const Category = (props) => {
+const Category = () => {
   // state for add category modal
   const [categoryName, setCategoryName] = useState('');
   const [parentCategoryId, setParentCategoryId] = useState('');
@@ -24,13 +24,6 @@ const Category = (props) => {
 
     // dispatch add category actions
     dispatch(addCategory(form));
-
-    // const cat = {
-    //   categoryName,
-    //   parentCategoryId,
-    //   categoryImage,
-    // };
-
     setShow(false);
   };
 

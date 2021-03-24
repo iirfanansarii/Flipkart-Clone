@@ -1,9 +1,9 @@
 import authReducers from './authReducers';
 import { combineReducers } from 'redux';
-import userReducers from '../reducers/userReducers';
-import categoryReducers from '../reducers/categoryReducers';
-import productReducers from '../reducers/productReducers';
-import orderReducers from '../reducers/orderReducers';
+import userReducers from './userReducers';
+import categoryReducers from './categoryReducers';
+import productReducers from './productReducers';
+import orderReducers from './orderReducers';
 
 // combine reducers
 const rootReducers = combineReducers({

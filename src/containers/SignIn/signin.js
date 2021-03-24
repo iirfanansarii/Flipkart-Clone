@@ -5,13 +5,12 @@ import { login } from '../../actions/authActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { Redirect } from 'react-router';
-import { useEffect } from 'react';
+import React from 'react';
 
 // signin functional component
-const SignIn = (props) => {
+const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
