@@ -39,7 +39,6 @@ const SignUp = () => {
   }
 
   if (user.loading) {
-    // you can return anything laoder/spiner
     return <p>Loading...</p>;
   }
 
